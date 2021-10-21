@@ -1,0 +1,15 @@
+$balloonSize: 200px;
+
+balloonindicator {
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+
+    .balloon {
+        background-color: red;
+
+        border-radius: 100%;
+        width: $balloonSize;
+        height: $balloonSize;
+    }
+}
