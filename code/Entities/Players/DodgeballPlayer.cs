@@ -18,7 +18,6 @@ namespace EpicDodgeballBattle.Players
 			Controller = new WalkController();
 
 			Animator = new StandardPlayerAnimator();
-			
 
 			Camera = new FirstPersonCamera();
 
