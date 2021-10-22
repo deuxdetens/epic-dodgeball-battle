@@ -6,7 +6,7 @@ namespace EpicDodgeballBattle.Systems
 {
 	public abstract partial class BaseRound : BaseNetworkable
 	{
-		protected virtual int RoundDuration => 0;
+		public virtual int RoundDuration => 0;
 
 		public float RoundEndTime { get; set; }
 
@@ -14,11 +14,11 @@ namespace EpicDodgeballBattle.Systems
 		
 		public RealTimeUntil NextSecondTime { get; private set; }
 
-		protected virtual string RoundName => "";
+		public virtual string RoundName => "";
 
-		protected virtual bool ShowTimeLeft => false;
+		public virtual bool ShowTimeLeft => false;
 
-		protected virtual bool ShowRoundInfo => false;
+		public virtual bool ShowRoundInfo => false;
 
 		public float TimeLeft
 		{

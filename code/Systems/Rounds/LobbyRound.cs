@@ -7,7 +7,7 @@ namespace EpicDodgeballBattle.Systems
 {
 	public class LobbyRound : BaseRound
 	{
-		protected override string RoundName => "LOBBY";
+		public override string RoundName => "LOBBY";
 
 		protected override void OnStart()
 		{

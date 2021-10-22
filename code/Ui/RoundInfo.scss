@@ -1,0 +1,71 @@
+@import "Variables.scss";
+
+roundInfo {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  min-height: 100%;
+  padding: 0;
+  width: 100%;
+  .container {
+    background: rgb(105,105,105);
+    background: linear-gradient(180deg, rgba(105,105,105,1) 0%, rgba(57,57,57,1) 100%);
+    border: $blueTeamPanelBorder;
+    padding: 8px;
+    font-family: $mainFont;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 48px;
+    width: 410px;
+    height: 44px;
+
+    label {
+      align-items: center;
+      color: $blueTeamColor;
+      font-size: 24px;
+      font-style: italic;
+      font-weight: bold;
+      text-shadow: $blueTeamShadow;
+
+      &.name {
+        width: 70%;
+        text-align: center;
+        left: 0;
+      }
+
+      &.timeLeft {
+        padding-left: 50px;
+        right: 0;
+        text-align: left;
+        width: 30%;
+      }
+    }
+
+    &.roundNameOnly {
+      .name {
+        text-align: center;
+        margin-right: 0px;
+        left: auto;
+        padding: 0;
+        width: 100%;
+      }
+
+      .timeLeft {
+        display: none;
+      }
+    }
+  }
+}
+
+.team_red {
+  roundInfo {
+    .container {
+      label {
+        color: $redTeamColor;
+        text-shadow: $redTeamShadow;
+      }
+    }
+  }
+}

@@ -7,6 +7,14 @@ namespace EpicDodgeballBattle.Systems
 {
 	public class PlayRound : BaseRound
 	{
+		public override string RoundName => "DODGEBALL BATTLE";
+
+		public override int RoundDuration => 1200;
+
+		public override bool ShowRoundInfo => true;
+		
+		public override bool ShowTimeLeft => true;
+		
 		public override void OnPlayerJoin( DodgeballPlayer player )
 		{
 			SpawnPlayer( player );
