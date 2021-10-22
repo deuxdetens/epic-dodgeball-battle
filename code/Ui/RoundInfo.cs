@@ -1,4 +1,5 @@
-﻿using Sandbox.UI;
+﻿using Sandbox;
+using Sandbox.UI;
 using Sandbox.UI.Construct;
 
 namespace EpicDodgeballBattle.Ui
@@ -16,6 +17,23 @@ namespace EpicDodgeballBattle.Ui
 
 			Container = Add.Panel( "container" );
 			RoundName = Container.Add.Label( "Round", "name" );
+		}
+
+		public override void Tick()
+		{
+			Entity player = Local.Pawn;
+			if ( player == null )
+			{
+				return;
+			}
+
+			Game game = Game.Instance;
+			if ( game == null )
+			{
+				return;
+			}
+			
+			base.Tick();
 		}
 	}
 }

@@ -1,36 +1,28 @@
 ﻿using EpicDodgeballBattle.Entities.Weapons;
+using EpicDodgeballBattle.Systems;
 using Sandbox;
 
 namespace EpicDodgeballBattle.Players
 {
 	[Library("epic-dodgeball-battle", Title = "Epic Dodgeball Battle")]
-	public class DodgeballPlayer : Player
+	public partial class DodgeballPlayer : Player
 	{
 		public DodgeballPlayer()
 		{
 			Inventory = new BaseInventory( this );
+			Animator = new StandardPlayerAnimator();
 		}
-		
+
 		public override void Respawn()
 		{
-			SetModel( "models/citizen/citizen.vmdl" );
-
-			Controller = new WalkController();
-
-			Animator = new StandardPlayerAnimator();
-
-			Camera = new FirstPersonCamera();
-
-			EnableAllCollisions = true;
-			EnableDrawing = true;
-			EnableHideInFirstPerson = true;
-			EnableShadowInFirstPerson = true;
-
-			DodgeballWeapon dbBalloon = Library.Create<DodgeballWeapon>( "db_balloon" );
-
-			Inventory.Add( dbBalloon );
-			ActiveChild = dbBalloon;
 			base.Respawn();
+			
+			Rounds.Current?.OnPlayerSpawn( this );
+		}
+
+		public void Reset()
+		{
+			Team = Team.None;
 		}
 
 		public override void Simulate( Client client )

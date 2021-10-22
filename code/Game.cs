@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using EpicDodgeballBattle.Players;
+using EpicDodgeballBattle.Systems;
 using EpicDodgeballBattle.Ui;
 using Sandbox;
 
@@ -24,13 +26,65 @@ namespace EpicDodgeballBattle
 			}
 		}
 		
+		public async Task StartSecondTimer()
+		{
+			while (true)
+			{
+				await Task.DelaySeconds( 1 );
+				OnSecond();
+			}
+		}
+		
+		private void OnSecond()
+		{
+			CheckMinimumPlayers();
+		}
+
+		public override void PostLevelLoaded()
+		{
+			_ = StartSecondTimer();
+			
+			base.PostLevelLoaded();
+		}
+		
+		[Event.Entity.PostSpawn]
+		private void OnEntityPostSpawn()
+		{
+			if ( IsServer )
+			{
+				Rounds.Change( new LobbyRound() );
+			}
+		}
+		
+		[Event.Tick]
+		private void OnTick()
+		{
+			Rounds.Current?.OnTick();
+		}
+		
+		private void CheckMinimumPlayers()
+		{
+			if ( Client.All.Count >= MinPlayers )
+			{
+				if ( Rounds.Current is LobbyRound || Rounds.Current == null )
+				{
+					Rounds.Change( new PlayRound() );
+				}
+			}
+			else if ( Rounds.Current is not LobbyRound )
+			{
+				Rounds.Change( new LobbyRound() );
+			}
+		}
+
 		public override void ClientJoined( Client client )
 		{
 			base.ClientJoined( client );
 
 			DodgeballPlayer player = new();
 			client.Pawn = player;
-			player.Respawn();
+			
+			Rounds.Current.OnPlayerJoin( player );
 		}
 	}
 }

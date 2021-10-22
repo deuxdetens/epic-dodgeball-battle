@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using EpicDodgeballBattle.Players;
 using Sandbox;
 
-namespace EpicDodgeballBattle.Systems.Rounds
+namespace EpicDodgeballBattle.Systems
 {
 	public abstract partial class BaseRound : BaseNetworkable
 	{
-		public virtual int RoundDuration => 0;
+		protected virtual int RoundDuration => 0;
 
 		public float RoundEndTime { get; set; }
 
@@ -13,11 +14,11 @@ namespace EpicDodgeballBattle.Systems.Rounds
 		
 		public RealTimeUntil NextSecondTime { get; private set; }
 
-		public virtual string RoundName => "";
+		protected virtual string RoundName => "";
 
-		public virtual bool ShowTimeLeft => false;
+		protected virtual bool ShowTimeLeft => false;
 
-		public virtual bool ShowRoundInfo => false;
+		protected virtual bool ShowRoundInfo => false;
 
 		public float TimeLeft
 		{
@@ -49,7 +50,7 @@ namespace EpicDodgeballBattle.Systems.Rounds
 			OnFinish();
 		}
 
-		public virtual void OnSecond()
+		protected virtual void OnSecond()
 		{
 			if ( Host.IsServer )
 			{
@@ -73,13 +74,13 @@ namespace EpicDodgeballBattle.Systems.Rounds
 				Players.Add( player );
 		}
 		
-		public virtual void OnPlayerKilled( Player player, Entity attacker, DamageInfo damageInfo ) { }
+		public virtual void OnPlayerKilled( DodgeballPlayer player, Entity attacker, DamageInfo damageInfo ) { }
 
-		public virtual void OnPlayerSpawn( Player player ) { }
+		public virtual void OnPlayerSpawn( DodgeballPlayer player ) { }
 
-		public virtual void OnPlayerJoin( Player player ) { }
+		public virtual void OnPlayerJoin( DodgeballPlayer player ) { }
 
-		public virtual void OnPlayerLeave( Player player )
+		protected virtual void OnPlayerLeave( Player player )
 		{
 			Players.Remove( player );
 		}
@@ -94,7 +95,7 @@ namespace EpicDodgeballBattle.Systems.Rounds
 		}
 
 
-		public virtual void OnStart() { }
+		protected virtual void OnStart() { }
 
 		protected virtual void OnFinish() { }
 

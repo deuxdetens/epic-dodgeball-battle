@@ -8,6 +8,7 @@ namespace EpicDodgeballBattle.Ui
 	public class BalloonIndicator : Panel
 	{
 		public Panel Balloon;
+		
 		private BaseWeapon DodgeballWeapon = null;
 
 		public BalloonIndicator()
