@@ -4,7 +4,7 @@ using Sandbox;
 
 namespace EpicDodgeballBattle.Players
 {
-	[Library("epic-dodgeball-battle", Title = "Epic Dodgeball Battle")]
+	[Library("epic_dodgeball_battle", Title = "Epic Dodgeball Battle")]
 	public partial class DodgeballPlayer : Player
 	{
 		public DodgeballPlayer()
