@@ -57,11 +57,8 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 				targetPlayer.GiveLoadout<PrisonerLoadout>();
 				targetPlayer.Loadout.Setup( targetPlayer );
 
-				var jailSpawnPoint = All.Where(e => e is PlayerSpawnPoint)
-						.Cast<PlayerSpawnPoint>()
-						.Where(psp => psp.Team == attackerPlayer.Team && psp.IsJail)
-						.FirstOrDefault();
-
+				var jailSpawnPoint = Game.PlayerSpawnPoints.Where(psp => psp.Team == attackerPlayer.Team && psp.IsJail)
+														.FirstOrDefault();
 				if(jailSpawnPoint == null)
 				{
 					Log.Error("Failed to find the jail spawn point on the map");

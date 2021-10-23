@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using EpicDodgeballBattle.Entities.Map;
 using EpicDodgeballBattle.Players;
 using EpicDodgeballBattle.Systems;
 using EpicDodgeballBattle.Ui;
@@ -17,6 +20,8 @@ namespace EpicDodgeballBattle
 		
 		[ServerVar( "edb_min_players", Help = "The minimum players required to start." )]
 		public static int MinPlayers { get; set; } = 2;
+		public static IEnumerable<PlayerSpawnPoint> PlayerSpawnPoints => All.Where(e => e is PlayerSpawnPoint)
+																			.Cast<PlayerSpawnPoint>();
 
 		public Game()
 		{
