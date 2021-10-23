@@ -1,5 +1,7 @@
 ﻿using EpicDodgeballBattle.Entities.Weapons;
 using EpicDodgeballBattle.Players;
+using EpicDodgeballBattle.Players.Loadouts;
+using EpicDodgeballBattle.Systems;
 using Sandbox;
 
 namespace EpicDodgeballBattle.Entities.Projectiles
@@ -7,6 +9,10 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 	[Library("db_balloon")]
 	public class BalloonProjectile : Prop, IUse
 	{
+		public Team Team { get; set; }
+
+		public Entity Attacker { get; set; }
+
 		public override void Spawn()
 		{
 			SetModel( "models/ball/ball.vmdl" );
@@ -20,16 +26,15 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 
 		public bool OnUse( Entity user )
 		{
-			if ( user is Player player )
+			if ( user is DodgeballPlayer player )
 			{
 				if(player.Inventory.Active is DodgeballWeapon)
 					return false;
 
-				var dbBalloon = Library.Create<DodgeballWeapon>( "db_balloon_weapon" );
-				dbBalloon.RenderColor = RenderColor;
+				DodgeballWeapon dbBalloon = Library.Create<DodgeballWeapon>( "db_balloon_weapon" );
+				dbBalloon.RenderColor = player.Team.GetRenderColor();
 
 				player.Inventory.Add( dbBalloon, true );
-				Log.Info( "Use." );
 				Delete();
 			}
 
@@ -38,9 +43,17 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 
 		protected override void OnPhysicsCollision( CollisionEventData eventData )
 		{
-			if ( eventData.Entity is DodgeballPlayer player )
+			if ( eventData.Entity is not DodgeballPlayer)
 			{
-				player.TakeDamage( DamageInfo.Generic( 1000f ) );
+				Attacker = null;
+			}
+			
+			if ( eventData.Entity is DodgeballPlayer targetPlayer 
+			     && Attacker is DodgeballPlayer attackerPlayer 
+			     && attackerPlayer.Team != targetPlayer.Team )
+			{
+				targetPlayer.GiveLoadout<PrisonerLoadout>();
+				targetPlayer.Loadout.Setup( targetPlayer );
 			}
 			
 			base.OnPhysicsCollision( eventData );

@@ -38,7 +38,8 @@ namespace EpicDodgeballBattle.Entities.Weapons
 				RenderColor = RenderColor,
 				Position = ShootFrom + ShootFromAngle.Forward * 50f,
 				Rotation = ShootFromAngle,
-				Velocity = ShootFromAngle.Forward * IneritVelocity
+				Velocity = ShootFromAngle.Forward * IneritVelocity,
+				Attacker = Owner
 			};
 			projectile.PhysicsBody.ApplyForce( ShootFromAngle.Forward * ProjectileForce * 200f );
 		}

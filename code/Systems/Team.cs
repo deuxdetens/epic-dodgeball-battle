@@ -25,6 +25,17 @@ namespace EpicDodgeballBattle.Systems
 			};
 		}
 		
+		public static Color GetRenderColor( this Team team )
+		{
+			return team switch
+			{
+				Team.None => Color.White,
+				Team.Red => Color.Red,
+				Team.Blue => Color.Blue,
+				_ => throw new ArgumentOutOfRangeException( nameof(team), team, null )
+			};
+		}
+		
 		public static int GetCount( this Team team )
 		{
 			return Entity.All.OfType<DodgeballPlayer>().Count( e => e.Team == team );

@@ -1,4 +1,5 @@
 ﻿using EpicDodgeballBattle.Entities.Weapons;
+using EpicDodgeballBattle.Systems;
 using Sandbox;
 
 namespace EpicDodgeballBattle.Players.Loadouts
@@ -9,10 +10,11 @@ namespace EpicDodgeballBattle.Players.Loadouts
 		{
 			base.Setup( player );
 			
-			DodgeballWeapon dbBalloon = Library.Create<DodgeballWeapon>( "db_balloon" );
-			
+			DodgeballWeapon dbBalloon = Library.Create<DodgeballWeapon>( "db_balloon_weapon" );
+			dbBalloon.RenderColor = player.Team.GetRenderColor();
 			player.Inventory.Add( dbBalloon );
 			player.ActiveChild = dbBalloon;
+			
 		}
 	}
 }
