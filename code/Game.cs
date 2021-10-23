@@ -36,13 +36,13 @@ namespace EpicDodgeballBattle
 			while (true)
 			{
 				await Task.DelaySeconds( 1 );
-				OnSecond();
+				await OnSecond();
 			}
 		}
 		
-		private void OnSecond()
+		private Task OnSecond()
 		{
-			CheckMinimumPlayers();
+			return CheckMinimumPlayers();
 		}
 
 		public override void PostLevelLoaded()
@@ -67,12 +67,13 @@ namespace EpicDodgeballBattle
 			Rounds.Current?.OnTick();
 		}
 		
-		private void CheckMinimumPlayers()
+		private async Task CheckMinimumPlayers()
 		{
 			if ( Client.All.Count >= MinPlayers )
 			{
 				if ( Rounds.Current is LobbyRound || Rounds.Current == null )
 				{
+					await Task.DelaySeconds( 10 );
 					Rounds.Change( new PlayRound() );
 				}
 			}
