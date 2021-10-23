@@ -1,9 +1,8 @@
-﻿using System;
-using EpicDodgeballBattle.Entities.Weapons;
+﻿using EpicDodgeballBattle.Entities.Weapons;
 using EpicDodgeballBattle.Players;
 using Sandbox;
 
-namespace EpicDodgeballBattle.Projectiles
+namespace EpicDodgeballBattle.Entities.Projectiles
 {
 	[Library]
 	public class BalloonProjectile : Prop, IUse
