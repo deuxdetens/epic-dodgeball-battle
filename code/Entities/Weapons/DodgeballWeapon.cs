@@ -3,7 +3,7 @@ using Sandbox;
 
 namespace EpicDodgeballBattle.Entities.Weapons
 {
-	[Library("db_balloon", Title = "Dodgeball Balloon")]
+	[Library("db_balloon_weapon", Title = "Dodgeball Balloon Weapon")]
 	public class DodgeballWeapon : BaseWeapon
 	{
 		public Vector3 ShootFrom => Owner.EyePos;

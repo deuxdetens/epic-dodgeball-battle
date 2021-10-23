@@ -25,7 +25,7 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 				if(player.Inventory.Active is DodgeballWeapon)
 					return false;
 
-				var dbBalloon = Library.Create<DodgeballWeapon>( "db_balloon" );
+				var dbBalloon = Library.Create<DodgeballWeapon>( "db_balloon_weapon" );
 				dbBalloon.RenderColor = RenderColor;
 
 				player.Inventory.Add( dbBalloon, true );
