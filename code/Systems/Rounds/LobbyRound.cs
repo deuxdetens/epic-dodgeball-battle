@@ -40,7 +40,7 @@ namespace EpicDodgeballBattle.Systems
 			AddPlayer( player );
 			
 			player.Reset();
-			player.SetTeam( Rand.Float() > 0.5f ? Team.Red : Team.Blue );
+			player.SetTeam( Team.None );
 			player.GiveLoadout<LobbyLoadout>();
 			player.Respawn();
 

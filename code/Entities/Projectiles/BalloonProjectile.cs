@@ -54,18 +54,7 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			     && Attacker is DodgeballPlayer attackerPlayer 
 			     && attackerPlayer.Team != targetPlayer.Team )
 			{
-				targetPlayer.GiveLoadout<PrisonerLoadout>();
-				targetPlayer.Loadout.Setup( targetPlayer );
-
-				var jailSpawnPoint = Game.PlayerSpawnPoints.Where(psp => psp.Team == attackerPlayer.Team && psp.IsJail)
-														.FirstOrDefault();
-				if(jailSpawnPoint == null)
-				{
-					Log.Error("Failed to find the jail spawn point on the map");
-					return;
-				}
-
-				targetPlayer.Transform = jailSpawnPoint.Transform;
+				Rounds.Current.OnPlayerIsPrisoner( targetPlayer, attackerPlayer );
 			}
 			
 			base.OnPhysicsCollision( eventData );

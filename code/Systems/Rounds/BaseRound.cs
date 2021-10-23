@@ -10,7 +10,7 @@ namespace EpicDodgeballBattle.Systems
 
 		public float RoundEndTime { get; set; }
 
-		public List<Player> Players = new();
+		public List<DodgeballPlayer> Players = new();
 		
 		public RealTimeUntil NextSecondTime { get; private set; }
 
@@ -66,7 +66,7 @@ namespace EpicDodgeballBattle.Systems
 			}
 		}
 		
-		public void AddPlayer( Player player )
+		public void AddPlayer( DodgeballPlayer player )
 		{
 			Host.AssertServer();
 
@@ -74,13 +74,13 @@ namespace EpicDodgeballBattle.Systems
 				Players.Add( player );
 		}
 		
-		public virtual void OnPlayerKilled( DodgeballPlayer player, Entity attacker, DamageInfo damageInfo ) { }
+		public virtual void OnPlayerIsPrisoner( DodgeballPlayer player, DodgeballPlayer attacker ) { }
 
 		public virtual void OnPlayerSpawn( DodgeballPlayer player ) { }
 
 		public virtual void OnPlayerJoin( DodgeballPlayer player ) { }
 
-		protected virtual void OnPlayerLeave( Player player )
+		protected virtual void OnPlayerLeave( DodgeballPlayer player )
 		{
 			Players.Remove( player );
 		}

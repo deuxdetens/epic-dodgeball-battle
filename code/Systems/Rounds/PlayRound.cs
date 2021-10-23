@@ -2,6 +2,7 @@
 using EpicDodgeballBattle.Entities.Map;
 using EpicDodgeballBattle.Players;
 using EpicDodgeballBattle.Players.Loadouts;
+using EpicDodgeballBattle.Ui;
 using Sandbox;
 
 namespace EpicDodgeballBattle.Systems
@@ -19,6 +20,8 @@ namespace EpicDodgeballBattle.Systems
 		[Net] public int BlueScore { get; set; }
 		
 		[Net] public int RedScore { get; set; }
+		
+		private RoundScore ScoreHud { get; set; }
 		
 		public override void OnPlayerJoin( DodgeballPlayer player )
 		{
@@ -45,16 +48,55 @@ namespace EpicDodgeballBattle.Systems
 					SpawnPlayer( player );
 				}
 			}
+			else
+			{
+				ScoreHud = Local.Hud.AddChild<RoundScore>();
+			}
 		}
-		
-		public override void OnTick()
+
+		public override void OnPlayerIsPrisoner( DodgeballPlayer player, DodgeballPlayer attacker )
 		{
-			RedScore = Client.All.Select( client => client.Pawn as DodgeballPlayer )
-				.Count(player => player.Team == Team.Blue && player.Loadout is PrisonerLoadout);
-			
-			BlueScore = Client.All.Select( client => client.Pawn as DodgeballPlayer )
-				.Count(player => player.Team == Team.Red && player.Loadout is PrisonerLoadout);
-			base.OnTick();
+			player.GiveLoadout<PrisonerLoadout>();
+			player.Loadout.Setup( player );
+
+			PlayerSpawnPoint? jailSpawnPoint = Game.PlayerSpawnPoints
+				.FirstOrDefault( psp => psp.Team == attacker.Team && psp.IsJail );
+				
+			if(jailSpawnPoint == null)
+			{
+				Log.Error("Failed to find the jail spawn point on the map");
+				return;
+			}
+
+			player.Transform = jailSpawnPoint.Transform;
+
+			ComputeTeamScore();
+
+			int playerBlueCount = Players.Count( player => player.Team == Team.Blue && player.Loadout is PlayerLoadout );
+			int playerRedCount = Players.Count( player => player.Team == Team.Red && player.Loadout is PlayerLoadout );
+
+			if ( playerBlueCount == 0 || playerRedCount == 0 )
+			{
+				Finish();
+			}
+		}
+
+		private void ComputeTeamScore()
+		{
+			RedScore = Players.Count(player => player.Team == Team.Blue && player.Loadout is PrisonerLoadout);
+			BlueScore = Players.Count(player => player.Team == Team.Red && player.Loadout is PrisonerLoadout);
+		}
+
+		protected override void OnFinish()
+		{
+			if ( Host.IsServer )
+			{
+				Rounds.Change( new StatsRound() );
+			}
+			else
+			{
+				ScoreHud?.Delete();
+			}
 		}
 
 		private Entity FindFreeSpawnPoint(Team team) => Game.PlayerSpawnPoints
@@ -68,7 +110,7 @@ namespace EpicDodgeballBattle.Systems
 				AddPlayer( player );
 
 			player.Reset();
-			player.SetTeam( Team.Red.GetCount() > Team.Blue.GetCount() ? Team.Blue : Team.Red );
+			player.SetTeam( Rand.Float() > 0.5f ? Team.Red : Team.Blue );
 			player.GiveLoadout<PlayerLoadout>();
 			player.Respawn();
 
