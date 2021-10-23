@@ -4,7 +4,7 @@ using Sandbox;
 
 namespace EpicDodgeballBattle.Entities.Projectiles
 {
-	[Library]
+	[Library("db_balloon")]
 	public class BalloonProjectile : Prop, IUse
 	{
 		public override void Spawn()
