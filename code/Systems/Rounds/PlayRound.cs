@@ -100,9 +100,8 @@ namespace EpicDodgeballBattle.Systems
 		}
 
 		private Entity FindFreeSpawnPoint(Team team) => Game.PlayerSpawnPoints
-															.Where(psp => psp.Team == team && !psp.IsJail &&
-																	!Players.Where(p => psp.Position.Distance(p.Position) < 20).Any())
-															.FirstOrDefault();
+															.FirstOrDefault(psp => psp.Team == team && !psp.IsJail &&
+																	!Players.Where(p => psp.Position.Distance(p.Position) < 20).Any());
 
 		private void SpawnPlayer( DodgeballPlayer player )
 		{
