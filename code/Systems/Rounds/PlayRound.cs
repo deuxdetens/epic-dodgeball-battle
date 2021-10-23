@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using EpicDodgeballBattle.Entities.Map;
 using EpicDodgeballBattle.Players;
 using EpicDodgeballBattle.Players.Loadouts;
 using Sandbox;
@@ -56,6 +57,11 @@ namespace EpicDodgeballBattle.Systems
 			base.OnTick();
 		}
 
+		private Entity FindFreeSpawnPoint(Team team) => Game.PlayerSpawnPoints
+															.Where(psp => psp.Team == team && !psp.IsJail &&
+																	!Players.Where(p => psp.Position.Distance(p.Position) < 20).Any())
+															.FirstOrDefault();
+
 		private void SpawnPlayer( DodgeballPlayer player )
 		{
 			if ( !Players.Contains( player ) )
@@ -65,6 +71,16 @@ namespace EpicDodgeballBattle.Systems
 			player.SetTeam( Team.Red.GetCount() > Team.Blue.GetCount() ? Team.Blue : Team.Red );
 			player.GiveLoadout<PlayerLoadout>();
 			player.Respawn();
+
+			var spawnPoint = FindFreeSpawnPoint(player.Team);
+			if(spawnPoint == null)
+			{
+				Log.Error("No free player spawn point found !");
+
+				return;
+			}
+
+			player.Transform = spawnPoint.Transform;
 		}
 	}
 }
