@@ -20,3 +20,9 @@ $redTeamPanelBg: rgba( 255 75 75 0.025 );
 $redTeamPanelFg: rgba( 255 75 75 0.05 );
 $redTeamBackground: 0px 0px 32px 0px rgba( 255 75 75 0.05 );
 $redTeamForeground: 0px 0px 32px 0px rgba( 255 75 75 0.1 );
+
+// Default
+$defaultPanelBg: rgb(105,105,105);
+$defaultPanelBgGradient: linear-gradient(180deg, rgba(105,105,105,1) 0%, rgba(57,57,57,1) 100%);
+$defaultPanelBorder: 2px solid rgba( 0 0 0 0.2 );
+$defaultShadow: 0px 0px 6px rgba( 0 0 0 1 );

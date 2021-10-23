@@ -1,0 +1,45 @@
+﻿@import "Variables.scss";
+
+roundscore {
+  position: absolute;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  width: 100%;
+
+  .container {
+    background: $defaultPanelBg;
+    background: $defaultPanelBgGradient;
+    border: $blueTeamPanelBorder;
+    padding: 8px;
+    font-family: Roboto;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 100px;
+    width: 110px;
+    height: 44px;
+
+    roundscoreitem {
+      justify-items: center;
+      align-items: center;
+      .score {
+        text-shadow: $blueTeamShadow;
+        font-family: $mainFont;
+        font-size: 28px;
+      }
+    }
+
+    .blue {
+      margin-right: 32px;
+      color: $blueTeamColor;
+    }
+
+    .red{
+      color: $redTeamColor;
+    }
+  }
+}

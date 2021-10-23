@@ -9,8 +9,8 @@ roundInfo {
   padding: 0;
   width: 100%;
   .container {
-    background: rgb(105,105,105);
-    background: linear-gradient(180deg, rgba(105,105,105,1) 0%, rgba(57,57,57,1) 100%);
+    background: $defaultPanelBg;
+    background: $defaultPanelBgGradient;
     border: $blueTeamPanelBorder;
     padding: 8px;
     font-family: $mainFont;

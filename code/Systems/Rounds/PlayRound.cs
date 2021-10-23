@@ -5,7 +5,7 @@ using Sandbox;
 
 namespace EpicDodgeballBattle.Systems
 {
-	public class PlayRound : BaseRound
+	public partial class PlayRound : BaseRound
 	{
 		public override string RoundName => "DODGEBALL BATTLE";
 
@@ -14,6 +14,10 @@ namespace EpicDodgeballBattle.Systems
 		public override bool ShowRoundInfo => true;
 		
 		public override bool ShowTimeLeft => true;
+		
+		[Net] public int BlueScore { get; set; }
+		
+		[Net] public int RedScore { get; set; }
 		
 		public override void OnPlayerJoin( DodgeballPlayer player )
 		{
@@ -40,6 +44,16 @@ namespace EpicDodgeballBattle.Systems
 					SpawnPlayer( player );
 				}
 			}
+		}
+		
+		public override void OnTick()
+		{
+			RedScore = Client.All.Select( client => client.Pawn as DodgeballPlayer )
+				.Count(player => player.Team == Team.Blue && player.Loadout is PrisonerLoadout);
+			
+			BlueScore = Client.All.Select( client => client.Pawn as DodgeballPlayer )
+				.Count(player => player.Team == Team.Red && player.Loadout is PrisonerLoadout);
+			base.OnTick();
 		}
 
 		private void SpawnPlayer( DodgeballPlayer player )
