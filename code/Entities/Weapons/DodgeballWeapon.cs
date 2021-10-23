@@ -1,5 +1,4 @@
-﻿using System;
-using EpicDodgeballBattle.Projectiles;
+﻿using EpicDodgeballBattle.Entities.Projectiles;
 using Sandbox;
 
 namespace EpicDodgeballBattle.Entities.Weapons
@@ -34,13 +33,13 @@ namespace EpicDodgeballBattle.Entities.Weapons
 
 		private void FireProjectile()
 		{
-			BalloonProjectile projectile = new();
-			projectile.SetModel( "models/ball/ball.vmdl" );
-			projectile.RenderColor = Color.Red;
-			projectile.Position = ShootFrom + ShootFromAngle.Forward * 50f;
-			projectile.Rotation = ShootFromAngle;
-			projectile.Initialize();
-			projectile.Velocity = ShootFromAngle.Forward * IneritVelocity;
+			var projectile = new BalloonProjectile
+			{
+				RenderColor = RenderColor,
+				Position = ShootFrom + ShootFromAngle.Forward * 50f,
+				Rotation = ShootFromAngle,
+				Velocity = ShootFromAngle.Forward * IneritVelocity
+			};
 			projectile.PhysicsBody.ApplyForce( ShootFromAngle.Forward * ProjectileForce * 200f );
 		}
 	}
