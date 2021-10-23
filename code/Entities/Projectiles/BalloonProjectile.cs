@@ -7,11 +7,15 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 	[Library]
 	public class BalloonProjectile : Prop, IUse
 	{
-		public void Initialize()
+		public override void Spawn()
 		{
-			Transmit = TransmitType.Always;
+			SetModel( "models/ball/ball.vmdl" );
 
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+
+			Transmit = TransmitType.Always;
+
+			base.Spawn();
 		}
 
 		public bool OnUse( Entity user )
