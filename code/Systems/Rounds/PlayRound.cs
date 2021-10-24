@@ -41,6 +41,8 @@ namespace EpicDodgeballBattle.Systems
 		{
 			if ( Host.IsServer )
 			{
+				DeleteBalloons();
+
 				foreach(var balloonSpawnPoint in Game.BalloonSpawnPoints.ToList())
 					balloonSpawnPoint.Spawn();
 
@@ -90,8 +92,7 @@ namespace EpicDodgeballBattle.Systems
 		{
 			if ( Host.IsServer )
 			{
-				foreach(var entity in Entity.All.Where(e => e is BalloonProjectile))
-					entity.Delete();
+				DeleteBalloons();
 
 				Rounds.Change( new StatsRound() );
 			}
@@ -99,6 +100,12 @@ namespace EpicDodgeballBattle.Systems
 			{
 				ScoreHud?.Delete();
 			}
+		}
+
+		private static void DeleteBalloons()
+		{
+			foreach(var entity in Entity.All.Where(e => e is BalloonProjectile))
+					entity.Delete();
 		}
 
 		private Entity FindFreeSpawnPoint(Team team) => Game.PlayerSpawnPoints
