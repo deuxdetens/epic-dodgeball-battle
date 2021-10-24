@@ -1,5 +1,4 @@
 ﻿using EpicDodgeballBattle.Lib.Network;
-using EpicDodgeballBattle.Systems;
 using Sandbox;
 
 namespace EpicDodgeballBattle.Systems

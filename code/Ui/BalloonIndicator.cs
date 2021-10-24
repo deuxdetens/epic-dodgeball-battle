@@ -1,5 +1,4 @@
 using Sandbox.UI;
-using Sandbox.UI.Construct;
 using Sandbox;
 using EpicDodgeballBattle.Entities.Weapons;
 

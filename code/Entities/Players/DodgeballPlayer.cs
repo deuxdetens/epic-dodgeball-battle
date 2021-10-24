@@ -1,5 +1,4 @@
-﻿using EpicDodgeballBattle.Entities.Weapons;
-using EpicDodgeballBattle.Systems;
+﻿using EpicDodgeballBattle.Systems;
 using Sandbox;
 
 namespace EpicDodgeballBattle.Players
