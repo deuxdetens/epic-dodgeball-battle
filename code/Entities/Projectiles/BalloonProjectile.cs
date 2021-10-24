@@ -51,6 +51,15 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			     && Attacker is DodgeballPlayer attackerPlayer 
 			     && attackerPlayer.Team != targetPlayer.Team )
 			{
+				DamageInfo damageInfo = new DamageInfo()
+					.WithAttacker( attackerPlayer )
+					.WithFlag( DamageFlags.PhysicsImpact )
+					.WithForce( eventData.Velocity)
+					.WithPosition( eventData.Pos )
+					.WithWeapon( Owner );
+				
+				targetPlayer.BecomeRagdollOnClient(targetPlayer.Velocity, damageInfo.Flags, damageInfo.Position, damageInfo.Force, GetHitboxBone( damageInfo.HitboxIndex ) );
+				
 				Rounds.Current.OnPlayerIsPrisoner( targetPlayer, attackerPlayer );
 			}
 			
