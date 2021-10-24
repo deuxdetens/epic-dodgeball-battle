@@ -22,6 +22,8 @@ namespace EpicDodgeballBattle
 		public static int MinPlayers { get; set; } = 2;
 		public static IEnumerable<PlayerSpawnPoint> PlayerSpawnPoints => All.Where(e => e is PlayerSpawnPoint)
 																			.Cast<PlayerSpawnPoint>();
+		public static IEnumerable<BalloonSpawnPoint> BalloonSpawnPoints => All.Where(e => e is BalloonSpawnPoint)
+																				.Cast<BalloonSpawnPoint>();
 
 		public Game()
 		{

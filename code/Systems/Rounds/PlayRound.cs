@@ -40,6 +40,9 @@ namespace EpicDodgeballBattle.Systems
 		{
 			if ( Host.IsServer )
 			{
+				foreach(var balloonSpawnPoint in Game.BalloonSpawnPoints)
+					balloonSpawnPoint.Spawn();
+
 				var players = Client.All.Select( client => client.Pawn as DodgeballPlayer ).ToList();
 
 				foreach ( DodgeballPlayer player in players )
@@ -86,6 +89,9 @@ namespace EpicDodgeballBattle.Systems
 		{
 			if ( Host.IsServer )
 			{
+				foreach(var entity in Entity.FindAllByName("db_balloon"))
+					entity.Delete();
+
 				Rounds.Change( new StatsRound() );
 			}
 			else
