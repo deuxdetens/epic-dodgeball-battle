@@ -93,6 +93,13 @@ namespace EpicDodgeballBattle
 			
 			Rounds.Current.OnPlayerJoin( player );
 		}
+		
+		public override void ClientDisconnect( Client client, NetworkDisconnectionReason reason )
+		{
+			Rounds.Current?.OnPlayerLeave( client.Pawn as DodgeballPlayer );
+
+			base.ClientDisconnect( client, reason );
+		}
 	}
 }
 

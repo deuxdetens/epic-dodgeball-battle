@@ -35,6 +35,17 @@ namespace EpicDodgeballBattle.Players
 			var controller = GetActiveController();
 			controller?.Simulate( client, this, GetActiveAnimator() );
 		}
+
+		protected override Entity FindUsable()
+		{
+			TraceResult trace = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 110f )
+				.HitLayer( CollisionLayer.Debris )
+				.Radius( 2 )
+				.Ignore( this )
+				.Run();
+
+			return !IsValidUseEntity( trace.Entity ) ? null : trace.Entity;
+		}
 	}
 
 	public static class DodgeballPlayerExtensions

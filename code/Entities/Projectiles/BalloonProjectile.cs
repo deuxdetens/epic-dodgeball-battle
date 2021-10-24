@@ -1,17 +1,37 @@
-﻿using EpicDodgeballBattle.Entities.Weapons;
+﻿using System;
+using System.Linq;
+using EpicDodgeballBattle.Entities.Map;
+using EpicDodgeballBattle.Entities.Weapons;
 using EpicDodgeballBattle.Players;
+using EpicDodgeballBattle.Players.Loadouts;
 using EpicDodgeballBattle.Systems;
+using EpicDodgeballBattle.Ui.World;
 using Sandbox;
+using Sandbox.UI;
 
 namespace EpicDodgeballBattle.Entities.Projectiles
 {
-	[Library("db_balloon")]
+	[Library( "db_balloon" )]
 	public class BalloonProjectile : Prop, IUse
 	{
 		public Team Team { get; set; }
 
 		public Entity Attacker { get; set; }
-		
+
+		public BalloonProjectileWorldPanel WorldPanel { get; set; }
+
+		public BalloonProjectile()
+		{
+			if ( IsClient )
+			{
+				WorldPanel = new()
+				{
+					Transform = Transform,
+					
+				};
+			}
+		}
+
 		public override void Spawn()
 		{
 			SetModel( "models/ball/ball.vmdl" );
@@ -19,15 +39,41 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 
 			Transmit = TransmitType.Always;
-
+			
 			base.Spawn();
+		}
+
+		[Event.Tick.Client]
+		private void OnTick()
+		{
+			WorldPanel.Position = Position + Vector3.Up * 20;
+			WorldPanel.Rotation = Local.Pawn.EyeRot;
+			Log.Info( Local.Pawn.EyeRot.Angles() );
 		}
 
 		public bool OnUse( Entity user )
 		{
 			if ( user is DodgeballPlayer player )
 			{
-				if(player.Inventory.Active is DodgeballWeapon)
+				if ( Owner is null && Attacker is not null )
+				{
+					DodgeballPlayer? prisoners =
+						Rounds.Current
+							.Players
+							.Where( p => p.Team == player.Team && p.Loadout is PrisonerLoadout )
+							.OrderBy( x => Guid.NewGuid() ).FirstOrDefault();
+
+					prisoners?.GiveLoadout<PlayerLoadout>();
+					PlayerSpawnPoint? jailSpawnPoint = Game.PlayerSpawnPoints
+						.FirstOrDefault( psp => psp.Team == prisoners?.Team && !psp.IsJail );
+
+					if ( jailSpawnPoint != null )
+						player.Transform = jailSpawnPoint.Transform;
+					else
+						Log.Error( "Failed to find the jail spawn point on the map" );
+				}
+
+				if ( player.Inventory.Active is DodgeballWeapon )
 					return false;
 
 				DodgeballWeapon dbBalloon = Library.Create<DodgeballWeapon>( "db_balloon_weapon" );
@@ -46,26 +92,35 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			{
 				Attacker = null;
 			}
-			
-			if ( eventData.Entity is DodgeballPlayer targetPlayer 
-			     && Attacker is DodgeballPlayer attackerPlayer 
+
+			if ( eventData.Entity is DodgeballPlayer targetPlayer
+			     && Attacker is DodgeballPlayer attackerPlayer
 			     && attackerPlayer.Team != targetPlayer.Team )
 			{
 				Attacker = null;
-				
+				var value = this.Owner;
 				DamageInfo damageInfo = new DamageInfo()
 					.WithAttacker( attackerPlayer )
 					.WithFlag( DamageFlags.PhysicsImpact )
-					.WithForce( eventData.Velocity)
+					.WithForce( eventData.Velocity )
 					.WithPosition( eventData.Pos )
 					.WithWeapon( Owner );
-				
-				targetPlayer.BecomeRagdollOnClient(targetPlayer.Velocity, damageInfo.Flags, damageInfo.Position, damageInfo.Force, GetHitboxBone( damageInfo.HitboxIndex ) );
-				
+
+				targetPlayer.BecomeRagdollOnClient( targetPlayer.Velocity, damageInfo.Flags, damageInfo.Position,
+					damageInfo.Force, GetHitboxBone( damageInfo.HitboxIndex ) );
+
 				Rounds.Current.OnPlayerIsPrisoner( targetPlayer, attackerPlayer );
 			}
-			
+
 			base.OnPhysicsCollision( eventData );
+		}
+
+		protected override void OnDestroy()
+		{
+			if ( IsClient )
+			{
+				WorldPanel.Delete();
+			}
 		}
 
 		public bool IsUsable( Entity user )

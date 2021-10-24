@@ -87,7 +87,7 @@ namespace EpicDodgeballBattle.Systems
 
 		public virtual void OnPlayerJoin( DodgeballPlayer player ) { }
 
-		protected virtual void OnPlayerLeave( DodgeballPlayer player )
+		public virtual void OnPlayerLeave( DodgeballPlayer player )
 		{
 			Players.Remove( player );
 		}
