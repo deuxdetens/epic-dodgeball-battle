@@ -59,16 +59,12 @@ namespace EpicDodgeballBattle.Systems
 			player.GiveLoadout<PrisonerLoadout>();
 			player.Loadout.Setup( player );
 
-			PlayerSpawnPoint? jailSpawnPoint = Game.PlayerSpawnPoints
+			var jailSpawnPoint = Game.PlayerSpawnPoints
 				.FirstOrDefault( psp => psp.Team == attacker.Team && psp.IsJail );
-				
-			if(jailSpawnPoint == null)
-			{
+			if(jailSpawnPoint != null)
+				player.Transform = jailSpawnPoint.Transform;
+			else
 				Log.Error("Failed to find the jail spawn point on the map");
-				return;
-			}
-
-			player.Transform = jailSpawnPoint.Transform;
 
 			ComputeTeamScore();
 
