@@ -73,10 +73,9 @@ namespace EpicDodgeballBattle
 		{
 			if ( Client.All.Count >= MinPlayers )
 			{
-				if ( Rounds.Current is LobbyRound || Rounds.Current == null )
+				if ( Rounds.Current is LobbyRound round|| Rounds.Current == null )
 				{
-					await Task.DelaySeconds( 10 );
-					Rounds.Change( new PlayRound() );
+					Rounds.Change( new PrePlayRound() );
 				}
 			}
 			else if ( Rounds.Current is not LobbyRound )

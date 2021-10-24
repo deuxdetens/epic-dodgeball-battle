@@ -22,7 +22,7 @@ namespace EpicDodgeballBattle.Systems
 				}
 			}
 		}
-		
+
 		public override void OnPlayerSpawn( DodgeballPlayer player )
 		{
 			player.Loadout?.Setup( player );
