@@ -40,7 +40,7 @@ namespace EpicDodgeballBattle.Systems
 		{
 			if ( Host.IsServer )
 			{
-				foreach(var balloonSpawnPoint in Game.BalloonSpawnPoints)
+				foreach(var balloonSpawnPoint in Game.BalloonSpawnPoints.ToList())
 					balloonSpawnPoint.Spawn();
 
 				var players = Client.All.Select( client => client.Pawn as DodgeballPlayer ).ToList();
