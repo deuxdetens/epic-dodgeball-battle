@@ -11,7 +11,7 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 		public Team Team { get; set; }
 
 		public Entity Attacker { get; set; }
-
+		
 		public override void Spawn()
 		{
 			SetModel( "models/ball/ball.vmdl" );
@@ -42,7 +42,7 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 
 		protected override void OnPhysicsCollision( CollisionEventData eventData )
 		{
-			if ( eventData.Entity is not DodgeballPlayer)
+			if ( eventData.Entity is not DodgeballPlayer )
 			{
 				Attacker = null;
 			}
@@ -51,6 +51,8 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			     && Attacker is DodgeballPlayer attackerPlayer 
 			     && attackerPlayer.Team != targetPlayer.Team )
 			{
+				Attacker = null;
+				
 				DamageInfo damageInfo = new DamageInfo()
 					.WithAttacker( attackerPlayer )
 					.WithFlag( DamageFlags.PhysicsImpact )
