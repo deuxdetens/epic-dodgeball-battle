@@ -75,7 +75,7 @@ namespace EpicDodgeballBattle.Systems
 
 			if ( playerBlueCount == 0 || playerRedCount == 0 )
 			{
-				Finish();
+				OnFinish();
 			}
 		}
 

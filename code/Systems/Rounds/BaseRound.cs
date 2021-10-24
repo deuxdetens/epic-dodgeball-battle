@@ -7,7 +7,8 @@ namespace EpicDodgeballBattle.Systems
 	public abstract partial class BaseRound : BaseNetworkable
 	{
 		public virtual int RoundDuration => 0;
-
+		public bool IsFinish { get; set; }
+		
 		public float RoundEndTime { get; set; }
 
 		public List<DodgeballPlayer> Players = new();
@@ -41,12 +42,18 @@ namespace EpicDodgeballBattle.Systems
 
 		public void Finish()
 		{
+			if ( IsFinish )
+			{
+				return;
+			}
+			
 			if ( Host.IsServer )
 			{
 				RoundEndTime = 0f;
 				Players.Clear();
 			}
 
+			IsFinish = true;
 			OnFinish();
 		}
 
