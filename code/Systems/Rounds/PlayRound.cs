@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using EpicDodgeballBattle.Entities.Projectiles;
 using EpicDodgeballBattle.Players;
 using EpicDodgeballBattle.Players.Loadouts;
 using EpicDodgeballBattle.Ui;
@@ -89,7 +90,7 @@ namespace EpicDodgeballBattle.Systems
 		{
 			if ( Host.IsServer )
 			{
-				foreach(var entity in Entity.FindAllByName("db_balloon"))
+				foreach(var entity in Entity.All.Where(e => e is BalloonProjectile))
 					entity.Delete();
 
 				Rounds.Change( new StatsRound() );
