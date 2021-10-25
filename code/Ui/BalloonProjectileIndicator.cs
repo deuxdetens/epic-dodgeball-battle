@@ -5,7 +5,7 @@ namespace EpicDodgeballBattle.Ui
 {
 	public class BalloonProjectileIndicator : Panel
 	{
-		private Panel Container;
+		private readonly Panel Container;
 
 		public BalloonProjectileIndicator()
 		{
