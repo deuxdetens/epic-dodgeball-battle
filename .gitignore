@@ -3,3 +3,5 @@ code/obj
 code/*.csproj
 config/*.fgd
 tools_asset_info.bin
+materials/**/*.vmat_c
+models/**/*.vmdl_c
