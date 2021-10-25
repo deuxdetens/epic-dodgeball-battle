@@ -119,7 +119,12 @@ namespace EpicDodgeballBattle.Systems
 
 			player.Reset();
 			player.SetTeam( Rand.Float() > 0.5f ? Team.Red : Team.Blue );
-			player.SetTeam( Team.Red.GetCount() > Team.Blue.GetCount() ? Team.Blue : Team.Red );
+			if(Team.Blue.GetCount() + Team.Red.GetCount() > 1)
+				if(Team.Blue.GetCount() == 0)
+					player.SetTeam(Team.Blue);
+				else if(Team.Red.GetCount() == 0)
+					player.SetTeam(Team.Red);
+
 			player.GiveLoadout<PlayerLoadout>();
 			player.Respawn();
 
