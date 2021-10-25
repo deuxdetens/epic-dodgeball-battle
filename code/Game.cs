@@ -82,6 +82,8 @@ namespace EpicDodgeballBattle
 			{
 				Rounds.Change( new LobbyRound() );
 			}
+
+			await Task.CompletedTask;
 		}
 
 		public override void ClientJoined( Client client )
