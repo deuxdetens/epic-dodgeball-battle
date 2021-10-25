@@ -9,5 +9,17 @@ balloonindicator {
         border-radius: 100%;
         width: $balloonSize;
         height: $balloonSize;
+
+        .force
+        {
+            font-size: 28px;
+
+            font-weight: bold;
+
+            align-items: center;
+            text-align: center;
+
+            width: 100%;
+        }
     }
 }

@@ -1,20 +1,24 @@
 using Sandbox.UI;
 using Sandbox;
 using EpicDodgeballBattle.Entities.Weapons;
+using Sandbox.UI.Construct;
+using System;
 
 namespace EpicDodgeballBattle.Ui
 {
 	public class BalloonIndicator : Panel
 	{
-		public Panel Balloon;
+		private readonly Panel Balloon;
+		private readonly Label Force;
 		
-		private BaseWeapon DodgeballWeapon = null;
+		private DodgeballWeapon DodgeballWeapon { get; set; }
 
 		public BalloonIndicator()
 		{
 			StyleSheet.Load( "/ui/BalloonIndicator.scss" );
 
 			Balloon = Add.Panel( "balloon" );
+			Force = Balloon.Add.Label(null, "force");
 		}
 
 		private void OnWeaponChange()
@@ -40,6 +44,11 @@ namespace EpicDodgeballBattle.Ui
 				DodgeballWeapon = Local.Pawn.Inventory.Active as DodgeballWeapon;
 				OnWeaponChange();
 			}
+
+			if(DodgeballWeapon != null)
+				Force.SetText($"{Math.Round(DodgeballWeapon.ProjectileForce)} %");
+
+			base.Tick();
         }
 	}
 }
