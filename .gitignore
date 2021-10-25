@@ -4,4 +4,5 @@ code/*.csproj
 config/*.fgd
 tools_asset_info.bin
 materials/**/*.vmat_c
+materials/**/*.vtex_c
 models/**/*.vmdl_c
