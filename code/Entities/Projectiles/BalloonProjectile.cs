@@ -5,32 +5,19 @@ using EpicDodgeballBattle.Entities.Weapons;
 using EpicDodgeballBattle.Players;
 using EpicDodgeballBattle.Players.Loadouts;
 using EpicDodgeballBattle.Systems;
-using EpicDodgeballBattle.Ui.World;
+using EpicDodgeballBattle.Ui;
 using Sandbox;
-using Sandbox.UI;
 
 namespace EpicDodgeballBattle.Entities.Projectiles
 {
 	[Library( "db_balloon" )]
-	public class BalloonProjectile : Prop, IUse
+	public class BalloonProjectile : Prop, IUse, IHudEntity
 	{
 		public Team Team { get; set; }
-
 		public Entity Attacker { get; set; }
-
-		public BalloonProjectileWorldPanel WorldPanel { get; set; }
-
-		public BalloonProjectile()
-		{
-			if ( IsClient )
-			{
-				WorldPanel = new()
-				{
-					Transform = Transform,
-					
-				};
-			}
-		}
+		public EntityHud Hud { get; set; }
+		public BalloonProjectileIndicator Indicator { get; set; }
+		public Vector3 LocalCenter => CollisionBounds.Center;
 
 		public override void Spawn()
 		{
@@ -43,12 +30,18 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			base.Spawn();
 		}
 
-		[Event.Tick.Client]
-		private void OnTick()
+		public override void ClientSpawn()
 		{
-			WorldPanel.Position = Position + Vector3.Up * 20;
-			WorldPanel.Rotation = Local.Pawn.EyeRot;
-			Log.Info( Local.Pawn.EyeRot.Angles() );
+			Hud = new EntityHud()
+			{
+				Entity = this,
+				UpOffset = 0f,
+				MaxDistanceView = 300f
+			};
+
+			Indicator = Hud.AddChild<BalloonProjectileIndicator>();
+
+			base.ClientSpawn();
 		}
 
 		public bool OnUse( Entity user )
@@ -57,7 +50,7 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			{
 				if ( Owner is null && Attacker is not null )
 				{
-					DodgeballPlayer? prisoners =
+					var prisoners =
 						Rounds.Current
 							.Players
 							.Where( p => p.Team == player.Team && p.Loadout is PrisonerLoadout )
@@ -119,7 +112,7 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 		{
 			if ( IsClient )
 			{
-				WorldPanel.Delete();
+				Hud.Delete();
 			}
 		}
 
