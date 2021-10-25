@@ -102,7 +102,7 @@ namespace EpicDodgeballBattle
 		{
 			base.ClientJoined( client );
 
-			DodgeballPlayer player = new();
+			var player = new DodgeballPlayer();
 			client.Pawn = player;
 			
 			Rounds.Current.OnPlayerJoin( player );
