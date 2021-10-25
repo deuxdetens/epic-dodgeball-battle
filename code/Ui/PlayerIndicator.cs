@@ -25,8 +25,7 @@ namespace EpicDodgeballBattle.Ui
 			Team = Container.Add.Icon(null, "team");
 		}
 
-		[Event.Tick.Client]
-		private void Tick()
+		public override void Tick()
 		{
 			if(Parent is EntityHud hud
 				&& hud.Entity is DodgeballPlayer player)
@@ -42,6 +41,8 @@ namespace EpicDodgeballBattle.Ui
             		Name.SetText(Client.Name);
 				}
 			}
+
+			base.Tick();
 		}
 	}
 }
