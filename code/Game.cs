@@ -68,7 +68,19 @@ namespace EpicDodgeballBattle
 		{
 			Rounds.Current?.OnTick();
 		}
-		
+
+		[ServerCmd("restart_round")]
+		public static void RestartRound()
+		{
+			if ( Rounds.Current is not PlayRound )
+			{
+				Log.Error("Current round is not PlayRound");
+				return;
+			}
+
+			Rounds.Change( new PrePlayRound() );
+		}
+
 		private async Task CheckMinimumPlayers()
 		{
 			if ( Client.All.Count >= MinPlayers )
