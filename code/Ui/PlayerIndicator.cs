@@ -20,7 +20,7 @@ namespace EpicDodgeballBattle.Ui
 			StyleSheet.Load("/Ui/PlayerIndicator.scss");
 
 			Container = Add.Panel("container");
-            Avatar = Container.Add.Image("avatar:0", "avatar");
+            Avatar = Container.Add.Image(null, "avatar");
 			Name = Container.Add.Label("Name", "name");
 			Team = Container.Add.Icon(null, "team");
 		}
