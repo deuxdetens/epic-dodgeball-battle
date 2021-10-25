@@ -21,7 +21,7 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 
 		public override void Spawn()
 		{
-			SetModel( "models/ball/ball.vmdl" );
+			SetModel( "models/prop_db_balloon/balloon.vmdl" );
 
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 
