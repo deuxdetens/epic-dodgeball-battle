@@ -44,6 +44,19 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			base.ClientSpawn();
 		}
 
+		[Event.Tick.Client]
+		private void Tick()
+		{
+			var distance = Local.Pawn.Position.Distance(Position);
+			var mapped = distance.Remap(Hud.MaxDistanceView, 0f).Clamp(0f, 1);
+
+			if(Hud.Style.Opacity != mapped)
+			{
+				Hud.Style.Opacity = mapped;
+				Hud.Style.Dirty();
+			}
+		}
+
 		public bool OnUse( Entity user )
 		{
 			if ( user is DodgeballPlayer player )
