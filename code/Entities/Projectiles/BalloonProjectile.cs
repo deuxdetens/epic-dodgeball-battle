@@ -112,6 +112,8 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 					.WithPosition( eventData.Pos )
 					.WithWeapon( Owner );
 
+				attackerPlayer.Client.AddInt("score");
+
 				targetPlayer.BecomeRagdollOnClient( targetPlayer.Velocity, damageInfo.Flags, damageInfo.Position,
 					damageInfo.Force, GetHitboxBone( damageInfo.HitboxIndex ) );
 

@@ -1,0 +1,77 @@
+scoreboard
+{
+    flex-direction: column;
+
+    background-color: rgba(black, 0.8);
+    backdrop-filter-blur: 10px;
+    color: white;
+    border-radius: 10px;
+
+    position: absolute;
+	top: 10%;
+	left: 10%;
+	bottom: 10%;
+	right: 10%;
+
+    pointer-events: all;
+
+    &.d-none
+    {
+        pointer-events: none;
+    }
+
+    .header
+    {
+        align-items: center;
+        width: 100%;
+        font-size: 24px;
+
+        padding: 20px;
+
+        .name
+        {
+            flex-grow: 1;
+        }
+
+        label
+        {
+            padding: 0 20px;
+        }
+    }
+
+    .canvas
+    {
+        flex-direction: column;
+
+        width: 100%;
+
+        overflow: scroll;
+
+        scoreboardentry
+        {
+            align-items: center;
+            width: 100%;
+            font-size: 18px;
+
+            padding: 20px;
+
+            flex-shrink: 0;
+
+            .avatar
+            {
+                width: 40px;
+                height: 40px;
+            }
+
+            .name
+            {
+                flex-grow: 1;
+            }
+
+            .avatar, .team, .score
+            {
+                margin: 0 40px;
+            }
+        }
+    }
+}

@@ -16,6 +16,7 @@ namespace EpicDodgeballBattle.Ui
 			RootPanel.AddChild<RoundInfo>();
 			RootPanel.AddChild<RoundScore>();
 			RootPanel.AddChild<BalloonIndicator>();
+			RootPanel.AddChild<Scoreboard>();
 		}
 	}
 }
