@@ -35,7 +35,7 @@ namespace EpicDodgeballBattle.Ui
 			Entity player = Local.Pawn;
 			if ( player == null ) return;
 
-			Game game = Game.Instance;
+			var game = Game.Current;
 			if ( game == null ) return;
 
 			if ( Rounds.Current is PlayRound round )

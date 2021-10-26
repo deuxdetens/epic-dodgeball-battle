@@ -31,7 +31,7 @@ namespace EpicDodgeballBattle.Ui
 				return;
 			}
 
-			Game game = Game.Instance;
+			var game = Game.Current;
 			if ( game == null )
 			{
 				return;
