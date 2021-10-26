@@ -104,7 +104,6 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			     && attackerPlayer.Team != targetPlayer.Team )
 			{
 				Attacker = null;
-				var value = this.Owner;
 				DamageInfo damageInfo = new DamageInfo()
 					.WithAttacker( attackerPlayer )
 					.WithFlag( DamageFlags.PhysicsImpact )
