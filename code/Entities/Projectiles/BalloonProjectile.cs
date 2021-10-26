@@ -70,7 +70,7 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 							.OrderBy( x => Guid.NewGuid() ).FirstOrDefault();
 
 					prisoners?.GiveLoadout<PlayerLoadout>();
-					PlayerSpawnPoint? jailSpawnPoint = Game.PlayerSpawnPoints
+					var jailSpawnPoint = Game.PlayerSpawnPoints
 						.FirstOrDefault( psp => psp.Team == prisoners?.Team && !psp.IsJail );
 
 					if ( jailSpawnPoint != null )
@@ -95,21 +95,13 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 		protected override void OnPhysicsCollision( CollisionEventData eventData )
 		{
 			if ( eventData.Entity is not DodgeballPlayer )
-			{
 				Attacker = null;
-			}
 
 			if ( eventData.Entity is DodgeballPlayer targetPlayer
 			     && Attacker is DodgeballPlayer attackerPlayer
 			     && attackerPlayer.Team != targetPlayer.Team )
 			{
 				Attacker = null;
-				/*var damageInfo = new DamageInfo()
-					.WithAttacker( attackerPlayer )
-					.WithFlag( DamageFlags.PhysicsImpact )
-					.WithForce( eventData.Velocity )
-					.WithPosition( eventData.Pos )
-					.WithWeapon( Owner );*/
 
 				var damageInfo = DamageInfo.FromBullet(eventData.Pos, eventData.Velocity, 100)
 					.WithAttacker(attackerPlayer)
