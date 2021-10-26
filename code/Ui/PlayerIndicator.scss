@@ -1,7 +1,5 @@
-﻿playerindicator
-{
-  .container
-  {
+﻿playerindicator {
+  .container {
     background-color: rgba(black, 0.59);
     padding: 5px;
     border-radius: 5px;
@@ -9,22 +7,19 @@
     width: max-content;
     height: fit-content;
 
-    .avatar
-    {
+    .avatar {
       width: 20px;
       height: 20px;
 
       margin-right: 10px;
     }
 
-    .name
-    {
+    .name {
       font-size: 18px;
       color: white;
     }
 
-    .team
-    {
+    .team {
       margin-left: 10px;
       width: 20px;
       height: 20px;

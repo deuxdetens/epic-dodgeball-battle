@@ -1,5 +1,4 @@
-scoreboard
-{
+scoreboard {
     flex-direction: column;
 
     background-color: rgba(black, 0.8);
@@ -15,40 +14,34 @@ scoreboard
 
     pointer-events: all;
 
-    &.d-none
-    {
+    &.d-none {
         pointer-events: none;
     }
 
-    .header
-    {
+    .header {
         align-items: center;
         width: 100%;
         font-size: 24px;
 
         padding: 20px;
 
-        .name
-        {
+        .name {
             flex-grow: 1;
         }
 
-        label
-        {
+        label {
             padding: 0 20px;
         }
     }
 
-    .canvas
-    {
+    .canvas {
         flex-direction: column;
 
         width: 100%;
 
         overflow: scroll;
 
-        scoreboardentry
-        {
+        scoreboardentry {
             align-items: center;
             width: 100%;
             font-size: 18px;
@@ -57,19 +50,16 @@ scoreboard
 
             flex-shrink: 0;
 
-            .avatar
-            {
+            .avatar {
                 width: 40px;
                 height: 40px;
             }
 
-            .name
-            {
+            .name {
                 flex-grow: 1;
             }
 
-            .avatar, .team, .score
-            {
+            .avatar, .team, .score {
                 margin: 0 40px;
             }
         }
