@@ -11,6 +11,7 @@ namespace EpicDodgeballBattle.Players
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public EntityHud Hud { get; set; }
 		public readonly Clothing.Container Clothing;
+		private DamageInfo LastDamage { get; set; }
 
 		public DodgeballPlayer()
 		{
@@ -37,6 +38,28 @@ namespace EpicDodgeballBattle.Players
 			Rounds.Current?.OnPlayerSpawn( this );
 
 			base.Respawn();
+		}
+
+		public override void TakeDamage( DamageInfo info )
+		{
+			LastDamage = info;
+
+			base.TakeDamage( info );
+		}
+
+		public override void OnKilled()
+		{
+			BecomeRagdollOnClient(Velocity, LastDamage.Flags, LastDamage.Position, LastDamage.Force, GetHitboxBone(LastDamage.HitboxIndex));
+
+			Camera = new SpectateRagdollCamera();
+			Controller = null;
+
+			EnableAllCollisions = false;
+			EnableDrawing = false;
+
+			Inventory.DeleteContents();
+
+			base.OnKilled();
 		}
 
 		public void Reset()
@@ -73,58 +96,6 @@ namespace EpicDodgeballBattle.Players
 				Hud.Delete();
 
 			base.OnDestroy();
-		}
-	}
-
-	public static class DodgeballPlayerExtensions
-	{
-		public static void BecomeRagdollOnClient(this DodgeballPlayer player, Vector3 velocity, DamageFlags damageFlags, Vector3 forcePos, Vector3 force, int forceBone )
-		{
-			ModelEntity ent = new()
-			{   
-				Position = player.Position, 
-				Rotation = player.Rotation, 
-				Scale = player.Scale, 
-				MoveType = MoveType.Physics,
-				UsePhysicsCollision = true,
-				EnableAllCollisions = true,
-				CollisionGroup = CollisionGroup.Debris
-			};
-			ent.SetModel( player.GetModelName() );
-			ent.CopyBonesFrom( player );
-			ent.CopyBodyGroups( player );
-			ent.CopyMaterialGroup( player );
-			ent.TakeDecalsFrom( player );
-			ent.EnableHitboxes = true;
-			ent.EnableAllCollisions = true;
-			ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
-			ent.RenderColor = player.RenderColor;
-			ent.PhysicsGroup.Velocity = velocity;
-
-			ent.SetInteractsAs( CollisionLayer.Debris );
-			ent.SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
-			ent.SetInteractsExclude( CollisionLayer.Player | CollisionLayer.Debris );
-			
-			if ( damageFlags.HasFlag( DamageFlags.PhysicsImpact ) )
-			{
-				PhysicsBody body = forceBone > 0 ? ent.GetBonePhysicsBody( forceBone ) : null;
-
-				if ( body != null )
-				{
-					body.ApplyImpulseAt( forcePos, force * body.Mass );
-				}
-				else
-				{
-					ent.PhysicsGroup.ApplyImpulse( force );
-				}
-			}
-
-			player.Corpse = ent;
-			player.Controller = null;
-			player.EnableAllCollisions = false;
-			player.EnableDrawing = false;
-			
-			ent.DeleteAsync( 10.0f );
 		}
 	}
 }

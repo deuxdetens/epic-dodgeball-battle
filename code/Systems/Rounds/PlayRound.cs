@@ -61,6 +61,8 @@ namespace EpicDodgeballBattle.Systems
 
 		public override void OnPlayerIsPrisoner( DodgeballPlayer player, DodgeballPlayer attacker )
 		{
+			attacker.Client.AddInt("score");
+
 			player.GiveLoadout<PrisonerLoadout>();
 			player.Loadout.Setup( player );
 

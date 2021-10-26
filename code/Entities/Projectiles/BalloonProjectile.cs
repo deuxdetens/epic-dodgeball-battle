@@ -104,17 +104,18 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			     && attackerPlayer.Team != targetPlayer.Team )
 			{
 				Attacker = null;
-				DamageInfo damageInfo = new DamageInfo()
+				/*var damageInfo = new DamageInfo()
 					.WithAttacker( attackerPlayer )
 					.WithFlag( DamageFlags.PhysicsImpact )
 					.WithForce( eventData.Velocity )
 					.WithPosition( eventData.Pos )
-					.WithWeapon( Owner );
+					.WithWeapon( Owner );*/
 
-				attackerPlayer.Client.AddInt("score");
+				var damageInfo = DamageInfo.FromBullet(eventData.Pos, eventData.Velocity, 100)
+					.WithAttacker(attackerPlayer)
+					.WithWeapon(this);
 
-				targetPlayer.BecomeRagdollOnClient( targetPlayer.Velocity, damageInfo.Flags, damageInfo.Position,
-					damageInfo.Force, GetHitboxBone( damageInfo.HitboxIndex ) );
+				targetPlayer.TakeDamage(damageInfo);
 
 				Rounds.Current.OnPlayerIsPrisoner( targetPlayer, attackerPlayer );
 			}
