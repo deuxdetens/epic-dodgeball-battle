@@ -23,7 +23,7 @@ namespace EpicDodgeballBattle.Ui
 
 		public RoundScore()
 		{
-			StyleSheet.Load( "/ui/RoundScore.scss" );
+			StyleSheet.Load( "/Ui/RoundScore.scss" );
 
 			Container = Add.Panel( "container" );
 			Blue = Container.AddChild<RoundScoreItem>( "blue" );

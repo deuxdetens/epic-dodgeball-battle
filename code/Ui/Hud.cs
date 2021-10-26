@@ -12,7 +12,7 @@ namespace EpicDodgeballBattle.Ui
 				return;
 			}
 			
-			RootPanel.StyleSheet.Load( "/Ui/hud.scss" );
+			RootPanel.StyleSheet.Load( "/Ui/Hud.scss" );
 			RootPanel.AddChild<RoundInfo>();
 			RootPanel.AddChild<RoundScore>();
 			RootPanel.AddChild<BalloonIndicator>();

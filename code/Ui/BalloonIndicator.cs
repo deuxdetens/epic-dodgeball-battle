@@ -15,7 +15,7 @@ namespace EpicDodgeballBattle.Ui
 
 		public BalloonIndicator()
 		{
-			StyleSheet.Load( "/ui/BalloonIndicator.scss" );
+			StyleSheet.Load( "/Ui/BalloonIndicator.scss" );
 
 			Balloon = Add.Panel( "balloon" );
 			Force = Balloon.Add.Label(null, "force");

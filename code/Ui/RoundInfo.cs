@@ -16,7 +16,7 @@ namespace EpicDodgeballBattle.Ui
 
 		public RoundInfo()
 		{
-			StyleSheet.Load( "/ui/RoundInfo.scss" );
+			StyleSheet.Load( "/Ui/RoundInfo.scss" );
 
 			Container = Add.Panel( "container" );
 			RoundName = Container.Add.Label( "Round", "name" );

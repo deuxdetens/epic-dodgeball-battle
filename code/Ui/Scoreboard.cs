@@ -14,7 +14,7 @@ namespace EpicDodgeballBattle.Ui
 
 		public Scoreboard()
 		{
-		    StyleSheet.Load( "/ui/Scoreboard.scss" );
+		    StyleSheet.Load( "/Ui/Scoreboard.scss" );
 
             Header = Add.Panel("header");
             Header.Add.Label("Avatar", "avatar");
