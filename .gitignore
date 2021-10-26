@@ -1,5 +1,6 @@
 .intermediate/
 code/obj
+code/Properties
 code/*.csproj
 config/*.fgd
 tools_asset_info.bin
