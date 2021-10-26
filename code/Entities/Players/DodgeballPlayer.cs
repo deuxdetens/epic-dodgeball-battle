@@ -10,7 +10,7 @@ namespace EpicDodgeballBattle.Players
 	{
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public EntityHud Hud { get; set; }
-		private readonly PlayerIndicator Indicator;
+		public readonly Clothing.Container Clothing;
 
 		public DodgeballPlayer()
 		{
@@ -26,15 +26,17 @@ namespace EpicDodgeballBattle.Players
 					MaxDistanceView = 1000f
 				};
 
-				Indicator = Hud.AddChild<PlayerIndicator>();
+				Hud.AddChild<PlayerIndicator>();
 			}
+
+			Clothing = new Clothing.Container();
 		}
 
 		public override void Respawn()
-		{
-			base.Respawn();
-			
+		{	
 			Rounds.Current?.OnPlayerSpawn( this );
+
+			base.Respawn();
 		}
 
 		public void Reset()

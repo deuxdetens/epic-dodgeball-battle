@@ -16,6 +16,7 @@ namespace EpicDodgeballBattle.Players.Loadouts
 			player.SetModel( Model );
 
 			player.Controller = new WalkController();
+			player.Animator = new StandardPlayerAnimator();
 
 			player.Camera = new FirstPersonCamera();
 			
@@ -27,6 +28,9 @@ namespace EpicDodgeballBattle.Players.Loadouts
 			player.EnableDrawing = true;
 			player.EnableHideInFirstPerson = true;
 			player.EnableShadowInFirstPerson = true;
+
+			player.Clothing.LoadFromClient(player.Client);
+			player.Clothing.DressEntity(player);
 		}
 	}
 }
