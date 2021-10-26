@@ -7,10 +7,7 @@ namespace EpicDodgeballBattle.Ui
 	{
 		public Hud()
 		{
-			if ( !IsClient )
-			{
-				return;
-			}
+			Host.AssertClient();
 			
 			RootPanel.StyleSheet.Load( "/Ui/Hud.scss" );
 			RootPanel.AddChild<RoundInfo>();

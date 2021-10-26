@@ -11,13 +11,11 @@ namespace EpicDodgeballBattle
 {
 	public class Game : Sandbox.Game 
 	{
-		public Hud Hud { get; set; }
-
+		private readonly Hud Hud;
 		public static Game Instance
 		{
 			get => Current as Game;
 		}
-		
 		[ServerVar( "edb_min_players", Help = "The minimum players required to start." )]
 		public static int MinPlayers { get; set; } = 2;
 		public static IEnumerable<PlayerSpawnPoint> PlayerSpawnPoints => All.Where(e => e is PlayerSpawnPoint)
@@ -27,10 +25,8 @@ namespace EpicDodgeballBattle
 
 		public Game()
 		{
-			if ( IsServer )
-			{
+			if ( IsClient )
 				Hud = new Hud();
-			}
 		}
 		
 		public async Task StartSecondTimer()
@@ -113,6 +109,13 @@ namespace EpicDodgeballBattle
 			Rounds.Current?.OnPlayerLeave( client.Pawn as DodgeballPlayer );
 
 			base.ClientDisconnect( client, reason );
+		}
+
+		protected override void OnDestroy()
+		{
+			Hud?.Delete();
+
+			base.OnDestroy();
 		}
 	}
 }
