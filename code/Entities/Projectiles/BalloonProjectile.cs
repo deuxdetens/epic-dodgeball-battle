@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using EpicDodgeballBattle.Entities.Map;
 using EpicDodgeballBattle.Entities.Weapons;
 using EpicDodgeballBattle.Players;
 using EpicDodgeballBattle.Players.Loadouts;

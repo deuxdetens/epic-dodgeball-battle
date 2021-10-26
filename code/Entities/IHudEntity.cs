@@ -1,5 +1,4 @@
 using EpicDodgeballBattle.Ui;
-using Sandbox.Internal;
 
 namespace EpicDodgeballBattle.Entities
 {
