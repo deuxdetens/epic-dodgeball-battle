@@ -8,8 +8,8 @@ namespace EpicDodgeballBattle.Entities.Weapons
 	{
 		public Vector3 ShootFrom => Owner.EyePos;
 		public Rotation ShootFromAngle => Owner.EyeRot;
-		public float IneritVelocity => 1000f;
-		public float ForceSpeed => 50f;
+		public static float IneritVelocity => 1000f;
+		public static float ForceSpeed => 50f;
 		[Net, Predicted]
 		public float ProjectileForce { get; set; }
 
