@@ -32,23 +32,20 @@ namespace EpicDodgeballBattle.Players
 			ent.SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
 			ent.SetInteractsExclude( CollisionLayer.Player | CollisionLayer.Debris );
 
-            foreach(var child in Children)
-            {
-                if(!child.Tags.Has("clothes"))
-                    continue;
+			foreach ( var child in Children )
+			{
+				if ( !child.Tags.Has( "clothes" ) ) continue;
+				if ( child is not ModelEntity e ) continue;
 
-                if(child is not ModelEntity e)
-                    continue;
+				var model = e.GetModelName();
 
-                var clothing = new ModelEntity()
-                {
-                    RenderColor = e.RenderColor
-                };
-                clothing.SetModel(e.GetModelName());
-                clothing.SetParent(ent, true);
-                clothing.CopyBodyGroups(e);
-                clothing.CopyMaterialGroup(e);
-            }
+				var clothing = new ModelEntity();
+				clothing.SetModel( model );
+				clothing.SetParent( ent, true );
+				clothing.RenderColor = e.RenderColor;
+				clothing.CopyBodyGroups( e );
+				clothing.CopyMaterialGroup( e );
+			}
 			
 			if ( damageFlags.HasFlag( DamageFlags.PhysicsImpact ) )
 			{
