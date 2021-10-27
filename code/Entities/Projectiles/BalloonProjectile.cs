@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using EpicDodgeballBattle.Entities.Map;
 using EpicDodgeballBattle.Entities.Weapons;
 using EpicDodgeballBattle.Players;
 using EpicDodgeballBattle.Players.Loadouts;
@@ -46,14 +47,16 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 		[Event.Tick.Client]
 		private void Tick()
 		{
-			var distance = Local.Pawn.Position.Distance(Position);
-			var mapped = distance.Remap(Hud.MaxDistanceView, 0f).Clamp(0f, 1);
+			float distance = Local.Pawn.Position.Distance(Position);
+			float mapped = distance.Remap(Hud.MaxDistanceView, 0f).Clamp(0f, 1);
 
-			if(Hud.Style.Opacity != mapped)
+			if ( Equals( Hud.Style.Opacity, mapped ) )
 			{
-				Hud.Style.Opacity = mapped;
-				Hud.Style.Dirty();
+				return;
 			}
+
+			Hud.Style.Opacity = mapped;
+			Hud.Style.Dirty();
 		}
 
 		public bool OnUse( Entity user )
@@ -62,18 +65,24 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			{
 				if ( Owner is null && Attacker is not null )
 				{
-					var prisoners =
+					DodgeballPlayer? prisonerToRelease =
 						Rounds.Current
 							.Players
 							.Where( p => p.Team == player.Team && p.Loadout is PrisonerLoadout )
-							.OrderBy( x => Guid.NewGuid() ).FirstOrDefault();
+							.OrderBy( _ => Guid.NewGuid() ).FirstOrDefault();
+					
+					if ( prisonerToRelease == null )
+					{
+						return false;
+					}
+					
+					prisonerToRelease.GiveLoadout<PlayerLoadout>();
+					
+					PlayerSpawnPoint? teamSpawnPoint = Game.PlayerSpawnPoints
+						.FirstOrDefault( psp => psp.Team == prisonerToRelease.Team && !psp.IsJail );
 
-					prisoners?.GiveLoadout<PlayerLoadout>();
-					var jailSpawnPoint = Game.PlayerSpawnPoints
-						.FirstOrDefault( psp => psp.Team == prisoners?.Team && !psp.IsJail );
-
-					if ( jailSpawnPoint != null )
-						player.Transform = jailSpawnPoint.Transform;
+					if ( teamSpawnPoint != null )
+						prisonerToRelease.Transform = teamSpawnPoint.Transform;
 					else
 						Log.Error( "Failed to find the jail spawn point on the map" );
 				}
