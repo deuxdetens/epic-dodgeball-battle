@@ -50,6 +50,9 @@ namespace EpicDodgeballBattle.Players
 
 		public override void TakeDamage( DamageInfo info )
 		{
+			if ( LifeState == LifeState.Dead )
+				return;
+
 			base.TakeDamage( info );
 
 			if(LifeState == LifeState.Dead)
