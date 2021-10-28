@@ -42,19 +42,15 @@ namespace EpicDodgeballBattle
 		public override void PostLevelLoaded()
 		{
 			_ = StartSecondTimer();
-			
-			base.PostLevelLoaded();
-		}
-		
-		[Event.Entity.PostSpawn]
-		private void OnEntityPostSpawn()
-		{
+
 			if ( IsServer )
 			{
 				Rounds.Change( new LobbyRound() );
 			}
+			
+			base.PostLevelLoaded();
 		}
-		
+
 		[Event.Tick]
 		private void OnTick()
 		{
