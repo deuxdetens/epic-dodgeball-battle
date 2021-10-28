@@ -6,43 +6,20 @@ using Sandbox.UI.Construct;
 
 namespace EpicDodgeballBattle.Ui
 {
-	public class PlayerIndicator : Panel
+	public class PlayerIndicator : BaseNameTag
 	{
-		private readonly Panel Container;
-        private readonly Image Avatar;
-        private readonly Label Name;
 		private readonly IconPanel Team;
 
-		private Client Client { get; set; }
-
-		public PlayerIndicator()
+		public PlayerIndicator(Player player)
+			: base(player)
 		{
-			StyleSheet.Load("/Ui/PlayerIndicator.scss");
-
-			Container = Add.Panel("container");
-            Avatar = Container.Add.Image(null, "avatar");
-			Name = Container.Add.Label("Name", "name");
-			Team = Container.Add.Icon(null, "team");
+			Team = Add.Icon(null, "team");
 		}
 
-		public override void Tick()
+		public override void UpdateFromPlayer( Player player )
 		{
-			if(Parent is EntityHud hud
-				&& hud.Entity is DodgeballPlayer player)
-			{
-				Team.Style.BackgroundColor = player.Team.GetRenderColor();
-
-				if(player.Client != null
-					&& Client != player.Client)
-				{
-					Client = player.Client;
-
-					Avatar.SetTexture($"avatar:{Client.SteamId}");
-            		Name.SetText(Client.Name);
-				}
-			}
-
-			base.Tick();
+			var dodgeballPlayer = player as DodgeballPlayer;
+			Team.Style.BackgroundColor = dodgeballPlayer.Team.GetRenderColor();
 		}
 	}
 }

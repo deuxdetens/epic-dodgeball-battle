@@ -7,10 +7,8 @@ using Sandbox;
 namespace EpicDodgeballBattle.Players
 {
 	[Library("epic_dodgeball_battle", Title = "Epic Dodgeball Battle")]
-	public partial class DodgeballPlayer : Player, IHudEntity
+	public partial class DodgeballPlayer : Player
 	{
-		public Vector3 LocalCenter => CollisionBounds.Center;
-		public EntityHud Hud { get; set; }
 		public Team JailTeam { get; set; }
 		public DamageInfo LastDamage { get; set; }
 		public readonly Clothing.Container Clothing;
@@ -19,18 +17,6 @@ namespace EpicDodgeballBattle.Players
 		{
 			Inventory = new BaseInventory( this );
 			Animator = new StandardPlayerAnimator();
-
-			if(IsClient)
-			{
-				Hud = new EntityHud()
-				{
-					Entity = this,
-					UpOffset = 50f,
-					MaxDistanceView = 1000f
-				};
-
-				Hud.AddChild<PlayerIndicator>();
-			}
 
 			Clothing = new Clothing.Container();
 		}
@@ -92,14 +78,6 @@ namespace EpicDodgeballBattle.Players
 				.Run();
 
 			return !IsValidUseEntity( trace.Entity ) ? null : trace.Entity;
-		}
-
-		protected override void OnDestroy()
-		{
-			if(IsClient)
-				Hud.Delete();
-
-			base.OnDestroy();
 		}
 	}
 }

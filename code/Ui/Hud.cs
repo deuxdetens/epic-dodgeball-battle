@@ -16,6 +16,7 @@ namespace EpicDodgeballBattle.Ui
 			RootPanel.AddChild<Scoreboard>();
 			RootPanel.AddChild<ChatBox>();
 			RootPanel.AddChild<KillFeed>();
+			RootPanel.AddChild<PlayerIndicators>();
 		}
 	}
 }
