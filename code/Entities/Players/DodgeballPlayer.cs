@@ -59,6 +59,8 @@ namespace EpicDodgeballBattle.Players
 
 			Inventory.DeleteContents();
 
+			Respawn();
+
 			base.OnKilled();
 		}
 
