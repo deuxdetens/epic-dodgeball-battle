@@ -22,29 +22,5 @@ namespace EpicDodgeballBattle.Systems
 				}
 			}
 		}
-
-		public override void OnPlayerSpawn( DodgeballPlayer player )
-		{
-			player.Loadout?.Setup( player );
-
-			base.OnPlayerSpawn( player );
-		}
-
-		public override void OnPlayerJoin( DodgeballPlayer player )
-		{
-			if ( Players.Contains( player ) )
-			{
-				return;
-			}
-			
-			AddPlayer( player );
-			
-			player.Reset();
-			player.SetTeam( Team.None );
-			player.GiveLoadout<LobbyLoadout>();
-			player.Respawn();
-
-			base.OnPlayerJoin( player );
-		}
 	}
 }

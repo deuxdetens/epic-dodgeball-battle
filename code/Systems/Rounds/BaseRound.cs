@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using EpicDodgeballBattle.Players;
+using EpicDodgeballBattle.Players.Loadouts;
 using Sandbox;
 
 namespace EpicDodgeballBattle.Systems
@@ -83,9 +84,21 @@ namespace EpicDodgeballBattle.Systems
 		
 		public virtual void OnPlayerIsPrisoner( DodgeballPlayer player, DodgeballPlayer attacker ) { }
 
-		public virtual void OnPlayerSpawn( DodgeballPlayer player ) { }
+		public virtual void OnPlayerSpawn( DodgeballPlayer player ) {
+			player.Loadout?.Setup( player );
+		}
 
-		public virtual void OnPlayerJoin( DodgeballPlayer player ) { }
+		public virtual void OnPlayerJoin( DodgeballPlayer player ) {
+			if ( Players.Contains( player ) )
+				return;
+			
+			AddPlayer( player );
+			
+			player.Reset();
+			player.SetTeam( Team.None );
+			player.GiveLoadout<LobbyLoadout>();
+			player.Respawn();
+		}
 
 		public virtual void OnPlayerLeave( DodgeballPlayer player )
 		{

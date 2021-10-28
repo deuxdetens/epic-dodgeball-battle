@@ -30,13 +30,6 @@ namespace EpicDodgeballBattle.Systems
 			base.OnPlayerJoin( player );
 		}
 
-		public override void OnPlayerSpawn( DodgeballPlayer player )
-		{
-			base.OnPlayerSpawn( player );
-			
-			player.Loadout?.Setup( player );
-		}
-
 		protected override void OnStart()
 		{
 			if ( Host.IsServer )
