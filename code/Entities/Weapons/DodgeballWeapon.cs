@@ -10,14 +10,10 @@ namespace EpicDodgeballBattle.Entities.Weapons
 		public Rotation ShootFromAngle => Owner.EyeRot;
 		public static float IneritVelocity => 1000f;
 		public static float ForceSpeed => 50f;
-		[Net, Predicted]
 		public float ProjectileForce { get; set; }
 
 		public override void Simulate( Client player )
 		{
-			if(!IsServer)
-				return;
-
 			using ( Prediction.Off() )
 			{
 				if(Input.Pressed(InputButton.Attack1))
@@ -26,7 +22,7 @@ namespace EpicDodgeballBattle.Entities.Weapons
 				if(ProjectileForce < 100f && Input.Down(InputButton.Attack1))
 					ProjectileForce += Time.Delta * ForceSpeed;
 
-				if(Input.Released(InputButton.Attack1))
+				if(IsServer && Input.Released(InputButton.Attack1))
 				{
 					FireProjectile();
 
