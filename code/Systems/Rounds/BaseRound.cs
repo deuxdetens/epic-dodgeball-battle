@@ -97,8 +97,6 @@ namespace EpicDodgeballBattle.Systems
 			player.EnableDrawing = false;
 
 			player.Inventory.DeleteContents();
-
-			player.Respawn();
 		}
 
 		public virtual void OnPlayerJoin( DodgeballPlayer player ) {

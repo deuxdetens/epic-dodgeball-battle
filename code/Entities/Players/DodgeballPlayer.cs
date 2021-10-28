@@ -12,6 +12,7 @@ namespace EpicDodgeballBattle.Players
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public EntityHud Hud { get; set; }
 		public Team JailTeam { get; set; }
+		public DamageInfo LastDamage { get; set; }
 		public readonly Clothing.Container Clothing;
 
 		public DodgeballPlayer()
@@ -53,10 +54,19 @@ namespace EpicDodgeballBattle.Players
 			if ( LifeState == LifeState.Dead )
 				return;
 
-			base.TakeDamage( info );
+			LastDamage = info;
 
-			if(LifeState == LifeState.Dead)
-				BecomeRagdollOnClient(Velocity, info.Flags, info.Position, info.Force, GetHitboxBone(info.HitboxIndex));
+			base.TakeDamage( info );
+		}
+
+		public override void OnKilled()
+		{
+			Log.Info("OnKilled player");
+
+			BecomeRagdollOnClient(Velocity, LastDamage.Flags, LastDamage.Position,
+									LastDamage.Force, GetHitboxBone(LastDamage.HitboxIndex));
+
+			base.OnKilled();
 		}
 
 		public void Reset()
@@ -72,8 +82,7 @@ namespace EpicDodgeballBattle.Players
 			
 			TickPlayerUse();
 
-			var controller = GetActiveController();
-			controller?.Simulate( client, this, GetActiveAnimator() );
+			base.Simulate(client);
 		}
 
 		protected override Entity FindUsable()
