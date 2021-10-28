@@ -88,6 +88,11 @@ namespace EpicDodgeballBattle.Systems
 			player.Loadout?.Setup( player );
 		}
 
+		public virtual void OnPlayerKilled(DodgeballPlayer player)
+		{
+			player.Respawn();
+		}
+
 		public virtual void OnPlayerJoin( DodgeballPlayer player ) {
 			if ( Players.Contains( player ) )
 				return;

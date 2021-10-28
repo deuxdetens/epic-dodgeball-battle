@@ -59,7 +59,7 @@ namespace EpicDodgeballBattle.Players
 
 			Inventory.DeleteContents();
 
-			Respawn();
+			Rounds.Current?.OnPlayerKilled(this);
 
 			base.OnKilled();
 		}
