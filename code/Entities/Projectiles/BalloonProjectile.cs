@@ -133,7 +133,10 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 
 		public bool IsUsable( Entity user )
 		{
-			return true;
+			if(user is DodgeballPlayer player)
+				return player.HasLoadout<PlayerLoadout>();
+
+			return false;
 		}
 	}
 }
