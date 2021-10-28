@@ -54,17 +54,11 @@ namespace EpicDodgeballBattle.Systems
 
 		public override void OnPlayerIsPrisoner( DodgeballPlayer player, DodgeballPlayer attacker )
 		{
-			attacker.Client.AddInt("score");
-
-			player.GiveLoadout<PrisonerLoadout>();
-			player.Loadout.Setup( player );
-
-			var jailSpawnPoint = Game.PlayerSpawnPoints
-				.FirstOrDefault( psp => psp.Team == attacker.Team && psp.IsJail );
-			if(jailSpawnPoint != null)
-				player.Transform = jailSpawnPoint.Transform;
-			else
-				Log.Error("Failed to find the jail spawn point on the map");
+			if(attacker.IsValid())
+			{
+				player.MakePrisoner(attacker.Team);
+				attacker.Client.AddInt("score");
+			}
 
 			ComputeTeamScore();
 
@@ -103,10 +97,6 @@ namespace EpicDodgeballBattle.Systems
 					entity.Delete();
 		}
 
-		private Entity FindFreeSpawnPoint(Team team) => Game.PlayerSpawnPoints
-															.FirstOrDefault(psp => psp.Team == team && !psp.IsJail &&
-																	!Players.Where(p => psp.Position.Distance(p.Position) < 20).Any());
-
 		private void SpawnPlayer( DodgeballPlayer player )
 		{
 			if ( !Players.Contains( player ) )
@@ -122,16 +112,6 @@ namespace EpicDodgeballBattle.Systems
 
 			player.GiveLoadout<PlayerLoadout>();
 			player.Respawn();
-
-			var spawnPoint = FindFreeSpawnPoint(player.Team);
-			if(spawnPoint == null)
-			{
-				Log.Error("No free player spawn point found !");
-
-				return;
-			}
-
-			player.Transform = spawnPoint.Transform;
 		}
 	}
 }

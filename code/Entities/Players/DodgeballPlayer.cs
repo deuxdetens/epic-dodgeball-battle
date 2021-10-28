@@ -1,4 +1,5 @@
 ﻿using EpicDodgeballBattle.Entities;
+using EpicDodgeballBattle.Players.Loadouts;
 using EpicDodgeballBattle.Systems;
 using EpicDodgeballBattle.Ui;
 using Sandbox;
@@ -10,8 +11,8 @@ namespace EpicDodgeballBattle.Players
 	{
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public EntityHud Hud { get; set; }
+		public Team JailTeam { get; set; }
 		public readonly Clothing.Container Clothing;
-		private DamageInfo LastDamage { get; set; }
 
 		public DodgeballPlayer()
 		{
@@ -33,35 +34,26 @@ namespace EpicDodgeballBattle.Players
 			Clothing = new Clothing.Container();
 		}
 
-		public override void Respawn()
-		{	
-			Rounds.Current?.OnPlayerSpawn( this );
+		public void MakePrisoner(Team jailTeam)
+		{
+			JailTeam = jailTeam;
 
+			GiveLoadout<PrisonerLoadout>();
+		}
+
+		public override void Respawn()
+		{
 			base.Respawn();
+
+			Rounds.Current?.OnPlayerSpawn( this );
 		}
 
 		public override void TakeDamage( DamageInfo info )
 		{
-			LastDamage = info;
-
 			base.TakeDamage( info );
-		}
 
-		public override void OnKilled()
-		{
-			BecomeRagdollOnClient(Velocity, LastDamage.Flags, LastDamage.Position, LastDamage.Force, GetHitboxBone(LastDamage.HitboxIndex));
-
-			Camera = new SpectateRagdollCamera();
-			Controller = null;
-
-			EnableAllCollisions = false;
-			EnableDrawing = false;
-
-			Inventory.DeleteContents();
-
-			Rounds.Current?.OnPlayerKilled(this);
-
-			base.OnKilled();
+			if(LifeState == LifeState.Dead)
+				BecomeRagdollOnClient(Velocity, info.Flags, info.Position, info.Force, GetHitboxBone(info.HitboxIndex));
 		}
 
 		public void Reset()

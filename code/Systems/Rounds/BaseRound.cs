@@ -90,6 +90,14 @@ namespace EpicDodgeballBattle.Systems
 
 		public virtual void OnPlayerKilled(DodgeballPlayer player)
 		{
+			player.Camera = new SpectateRagdollCamera();
+			player.Controller = null;
+
+			player.EnableAllCollisions = false;
+			player.EnableDrawing = false;
+
+			player.Inventory.DeleteContents();
+
 			player.Respawn();
 		}
 

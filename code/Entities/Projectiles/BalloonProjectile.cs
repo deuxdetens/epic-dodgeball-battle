@@ -111,13 +111,13 @@ namespace EpicDodgeballBattle.Entities.Projectiles
 			{
 				Attacker = null;
 
+				Rounds.Current.OnPlayerIsPrisoner( targetPlayer, attackerPlayer );
+
 				var damageInfo = DamageInfo.FromBullet(eventData.Pos, eventData.Velocity, 100)
 					.WithAttacker(attackerPlayer)
 					.WithWeapon(this);
 
 				targetPlayer.TakeDamage(damageInfo);
-
-				Rounds.Current.OnPlayerIsPrisoner( targetPlayer, attackerPlayer );
 			}
 
 			base.OnPhysicsCollision( eventData );

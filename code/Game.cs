@@ -95,7 +95,41 @@ namespace EpicDodgeballBattle
 			
 			Rounds.Current.OnPlayerJoin( player );
 		}
+
+		public override void OnKilled( Client client, Entity pawn )
+		{
+			base.OnKilled(client, pawn);
+
+			Rounds.Current?.OnPlayerKilled(pawn as DodgeballPlayer);
+		}
 		
+		public override void MoveToSpawnpoint(Entity pawn)
+		{
+			var player = pawn as DodgeballPlayer;
+
+			if(player.IsPrisoner)
+			{
+				var jailSpawnPoint = PlayerSpawnPoints
+					.FirstOrDefault( psp => psp.Team == player.JailTeam && psp.IsJail );
+				if(jailSpawnPoint != null)
+					player.Transform = jailSpawnPoint.Transform;
+				else
+					Log.Error("Failed to find the jail spawn point on the map");
+			}
+			else if(player.IsPlayer)
+			{
+				var spawnPoint = PlayerSpawnPoints
+					.FirstOrDefault(psp => psp.Team == player.Team && !psp.IsJail &&
+							!Rounds.Current.Players.Where(p => psp.Position.Distance(p.Position) < 20).Any());
+				if(spawnPoint != null)
+					player.Transform = spawnPoint.Transform;
+				else
+					Log.Error("No free player spawn point found !");
+			}
+			else
+				base.MoveToSpawnpoint(pawn);
+		}
+
 		public override void ClientDisconnect( Client client, NetworkDisconnectionReason reason )
 		{
 			Rounds.Current?.OnPlayerLeave( client.Pawn as DodgeballPlayer );
