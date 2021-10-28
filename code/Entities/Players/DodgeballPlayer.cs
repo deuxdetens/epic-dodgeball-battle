@@ -61,8 +61,6 @@ namespace EpicDodgeballBattle.Players
 
 		public override void OnKilled()
 		{
-			Log.Info("OnKilled player");
-
 			BecomeRagdollOnClient(Velocity, LastDamage.Flags, LastDamage.Position,
 									LastDamage.Force, GetHitboxBone(LastDamage.HitboxIndex));
 
